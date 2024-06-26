@@ -12,7 +12,23 @@
 
 //gets called once at boot. Do all initialization that doesn't depend on network here
 void userSetup()
-{
+{#include "wled.h"
+
+#include "usermod_PIR_sensor_switch.h"
+
+class MyUsermod : public Usermod {
+  //...
+
+  void togglePIRSensor() {
+    #ifdef USERMOD_PIR_SENSOR_SWITCH
+    PIRsensorSwitch *PIRsensor = (PIRsensorSwitch::*) usermods.lookup(USERMOD_ID_PIRSWITCH);
+    if (PIRsensor != nullptr) {
+      PIRsensor->EnablePIRsensor(!PIRsensor->PIRsensorEnabled());
+    }
+    #endif
+  }
+  //...
+};
 
 }
 
